@@ -86,14 +86,15 @@ def logger(url):
         _update(q)
 
 def select_logger(url_id):
-    q = ("SELECT urlId, MAX(lastUpdate) FROM  log where urlId =?", (url_id))
+    q = "SELECT urlId, MAX(lastUpdate) FROM  log where urlId =?", (url_id)
     conn = create_connection()
     with conn:
         cur = conn.cursor()
+        cur.execute("SELECT urlId, MAX(lastUpdate) FROM  log where urlId =?", (url_id,))
         rows = cur.fetchall()
 
         # for row in rows:
-        return rows
+        return rows[0]
 
 def get_url_id(url):
     select =select_urls(url)

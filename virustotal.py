@@ -62,6 +62,10 @@ def refresh(url):
 
     # update log data
 
+def isLessthen30min(t1):
+    t = int(time.time())
+    t2 = t- (30 * 60)
+    return t1<= t2
 
 def needRefresh(url):
     # sql groped by url with max
@@ -70,9 +74,10 @@ def needRefresh(url):
     #SELECT urlId, MAX(lastUpdate) FROM  log where urlId = ''
 
     url_id =get_url_id(url)
-    t= int(time.time())
-    select_logger(url_id)
-    return True
+    if url_id:
+        lastTime = select_logger(url_id)[1]
+    
+        return isLessthen30min(lastTime)
 
 
 def classifying():
@@ -82,6 +87,7 @@ def classifying():
         if needRefresh(x):
             # pass
             # do refresh for urls needed
+            print(x)
             refresh(x)
 
 
