@@ -63,6 +63,9 @@ def refresh(url):
 
 
 def needRefresh(url):
+    # sql groped by url with max
+    # if max not in timestemp need represh
+
     return True
 
 
