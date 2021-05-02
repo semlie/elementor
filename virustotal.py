@@ -2,6 +2,7 @@
 import pickle
 import os
 from collections import Counter
+import time
 
 import pandas as pd
 import storage
@@ -65,7 +66,12 @@ def refresh(url):
 def needRefresh(url):
     # sql groped by url with max
     # if max not in timestemp need represh
+    #SELECT urlId, MAX(lastUpdate) FROM  log GROUP BY urlId
+    #SELECT urlId, MAX(lastUpdate) FROM  log where urlId = ''
 
+    url_id =get_url_id(url)
+    t= int(time.time())
+    select_logger(url_id)
     return True
 
 

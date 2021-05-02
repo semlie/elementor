@@ -85,7 +85,21 @@ def logger(url):
         q = ("REPLACE INTO log values(:urlId, :lastUpdate)", row)
         _update(q)
 
+def select_logger(url_id):
+    q = ("SELECT urlId, MAX(lastUpdate) FROM  log where urlId =?", (url_id))
+    conn = create_connection()
+    with conn:
+        cur = conn.cursor()
+        rows = cur.fetchall()
 
+        # for row in rows:
+        return rows
+
+def get_url_id(url):
+    select =select_urls(url)
+    if select:
+        id = select[0][0]
+        return id
 
 def select_task_by_priority(conn, priority):
     """
@@ -110,12 +124,14 @@ def main():
     conn = create_connection()
     with conn:
         print("1. Query task by priority:")
-        select_task_by_priority(conn, 1)
-        url = 'www.elementor1.com'
-
-        update_category(url,{'information technology': 15, 'mobile communications': 4, 'Computer and Internet Info': 1, 'blogs': 1})
-        # print("2. Query all tasks")
-        # select_all_tasks(conn)
+        # select_task_by_priority(conn, 1)
+        # url = 'www.elementor1.com'
+        #
+        # update_category(url,{'information technology': 15, 'mobile communications': 4, 'Computer and Internet Info': 1, 'blogs': 1})
+        # # print("2. Query all tasks")
+        # # select_all_tasks(conn)
+        res = select_logger(3)
+        print(res)
 
 
 if __name__ == '__main__':
